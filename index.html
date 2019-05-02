@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Dopewars price chart</title>
+</head>
+<body>
+    acid ~$<span id="avgacid"></span>
+    <div id="acid"></div>
+    cocain ~$<span id="avgcocaine"></span>
+    <div id="cocaine"></div>
+    heroin ~$<span id="avgheroin"></span>
+    <div id="heroin"></div>
+    hashish ~$<span id="avghashish"></span>
+    <div id="hashish"></div>
+    weed ~$<span id="avgweed"></span>
+    <div id="weed"></div>
+    speed ~$<span id="avgspeed"></span>
+    <div id="speed"></div>
+    ecstacy ~$<span id="avgecstacy"></span>
+    <div id="ecstacy"></div>
+    ludes ~$<span id="avgludes"></span>
+    <div id="ludes"></div>
+    shrooms ~$<span id="avgshrooms"></span>
+    <div id="shrooms"></div>
+    peyote ~$<span id="avgpeyote"></span>
+    <div id="peyote"></div>
+    PCP ~$<span id="avgPCP"></span>
+    <div id="PCP"></div>
+
+    <script src="./jquery.min.js"></script>
+    <script src="./jquery.sparkline.min.js"></script>
+    <script>
+        $.getJSON('/prices.json').then(prices => {
+            Object.keys(prices).forEach(priceName => {
+                $(`#${priceName}`).sparkline(prices[priceName], {
+                    type: 'line'
+                })
+
+                var count = 0
+                var total = 0
+                prices[priceName].forEach((p) => {
+                    count += !!p
+                    total += p
+                })
+                var avgd = total / count
+
+                $(`#avg${priceName}`).html(Math.round(avgd))
+            })
+        })
+    </script>
+</body>
+</html>
